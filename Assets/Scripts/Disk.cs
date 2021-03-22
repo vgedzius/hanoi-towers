@@ -4,8 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 public class Disk : MonoBehaviour
 {
-    [Header("Rendering")]
-    [SerializeField] float radius = 10f;
+    [SerializeField] int size = 1;
+    [SerializeField] int maxDisks = 2; // temporary, later game will set this
+
+    [Header("Rendering")] 
+    [SerializeField] float minRadius = 0.5f;
+    [SerializeField] float maxRadius = 1.2f;
     [SerializeField] float innerRadius = 0.3f;
     [SerializeField] int numberOfSegments = 32;
     [SerializeField] float height = 0.3f;
@@ -42,20 +46,22 @@ public class Disk : MonoBehaviour
     {
         float alpha = Mathf.PI / numberOfSegments * 2;
         float totalAlpha = 0;
+        float stepSize = (maxRadius - minRadius) / (maxDisks - 1);
+        float radius = minRadius + stepSize * (size - 1);
 
         for (int i = 0; i < numberOfSegments; i++)
         {
             Vector3 c1 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v1 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
-            
+
             Vector3 c2 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v2 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
-            
+
             totalAlpha += alpha;
-            
+
             Vector3 c3 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v3 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
-            
+
             Vector3 c4 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v4 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
 
