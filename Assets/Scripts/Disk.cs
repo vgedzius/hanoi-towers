@@ -4,7 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 public class Disk : MonoBehaviour
 {
+    [Header("Rendering")]
     [SerializeField] float radius = 10f;
+    [SerializeField] float innerRadius = 0.3f;
     [SerializeField] int numberOfSegments = 32;
     [SerializeField] float height = 0.3f;
 
@@ -43,18 +45,23 @@ public class Disk : MonoBehaviour
 
         for (int i = 0; i < numberOfSegments; i++)
         {
-            Vector3 c1 = new Vector3(center.x, height, center.y);
-            Vector3 c2 = center;
-
+            Vector3 c1 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v1 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
+            
+            Vector3 c2 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v2 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
             
             totalAlpha += alpha;
+            
+            Vector3 c3 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v3 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
+            
+            Vector3 c4 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
             Vector3 v4 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
 
-            AddTriangle(c1, v1, v3);
-            AddTriangle(c2, v4, v2);
+            AddQuad(c1, c3, c4, c2);
+            AddQuad(c1, v1, v3, c3);
+            AddQuad(c2, c4, v4, v2);
             AddQuad(v1, v2, v4, v3);
         }
     }
