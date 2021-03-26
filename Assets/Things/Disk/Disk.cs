@@ -6,9 +6,6 @@ namespace HanoiTowers
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class Disk : MonoBehaviour
     {
-        [SerializeField] int size = 1;
-        [SerializeField] int maxDisks = 2; // temporary, later game will set this
-
         [Header("Rendering")] [SerializeField] float minRadius = 0.5f;
         [SerializeField] float maxRadius = 1.2f;
         [SerializeField] float innerRadius = 0.3f;
@@ -18,6 +15,10 @@ namespace HanoiTowers
         MeshFilter meshFilter;
         List<Vector3> vertices;
         List<int> triangles;
+
+        public int MaxDisks { get; set; }
+        public int Size { get; set; }
+        public float Height => height;
 
         void Awake()
         {
@@ -48,8 +49,8 @@ namespace HanoiTowers
         {
             float alpha = Mathf.PI / numberOfSegments * 2;
             float totalAlpha = 0;
-            float stepSize = (maxRadius - minRadius) / (maxDisks - 1);
-            float radius = minRadius + stepSize * (size - 1);
+            float stepSize = MaxDisks > 1 ? (maxRadius - minRadius) / (MaxDisks - 1) : 0f;
+            float radius = minRadius + stepSize * (Size - 1);
 
             for (int i = 0; i < numberOfSegments; i++)
             {
