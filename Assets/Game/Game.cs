@@ -12,7 +12,8 @@ namespace HanoiTowers
         [SerializeField] Peg[] pegs;
         [SerializeField] Peg startingPeg;
 
-        Disk highlightedDisk;
+        Peg highlightedPeg;
+        Peg selectedPeg;
 
         Camera mainCamera;
 
@@ -28,23 +29,63 @@ namespace HanoiTowers
 
         void Update()
         {
-            if (highlightedDisk != null)
-            {
-                highlightedDisk.Peg.HighlightAllDisks(false);
-                highlightedDisk = null;
-            }
+            HighlightPeg();
+            HandleSelection();
+        }
 
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        void HandleSelection()
+        {
+            if (!Input.GetMouseButtonUp(0)) return;
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (selectedPeg && selectedPeg != highlightedPeg)
             {
-                Disk diskHit = hit.transform.GetComponent<Disk>();
-                if (diskHit)
+                if (highlightedPeg)
                 {
-                    highlightedDisk = diskHit;
-                    highlightedDisk.Peg.HighlightAllDisks();
+                    highlightedPeg.AddDisk(selectedPeg.SelectedDisk);
+                    selectedPeg.Clear();
                 }
+
+                selectedPeg.Deselect();
+                selectedPeg = null;
+
+                return;
             }
+
+            if (highlightedPeg && selectedPeg != highlightedPeg)
+            {
+                selectedPeg = highlightedPeg;
+                selectedPeg.Select();
+            }
+        }
+
+        void HighlightPeg()
+        {
+            if (highlightedPeg is { })
+            {
+                highlightedPeg.HighlightAllDisks(false);
+                highlightedPeg = null;
+            }
+
+            if (!Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
+
+            Disk diskHit = hit.transform.GetComponent<Disk>();
+            if (diskHit)
+            {
+                highlightedPeg = diskHit.Peg;
+                highlightedPeg.HighlightAllDisks();
+            }
+
+            Peg peg = hit.transform.GetComponent<Peg>();
+            if (peg)
+            {
+                highlightedPeg = peg;
+                highlightedPeg.HighlightAllDisks();
+            }
+        }
+
+        Ray MouseToRay()
+        {
+            return mainCamera.ScreenPointToRay(Input.mousePosition);
         }
 
         IEnumerator SpawnDisks()

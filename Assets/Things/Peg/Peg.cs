@@ -5,7 +5,11 @@ namespace HanoiTowers
 {
     public class Peg : MonoBehaviour
     {
+        [SerializeField] float selectedHeight = 0.5f;
+
         Stack<Disk> disks;
+
+        public Disk SelectedDisk { get; private set; }
 
         float StackHeight => disks.Count > 0 ? disks.Count * disks.Peek().Height : 0f;
 
@@ -29,6 +33,26 @@ namespace HanoiTowers
             {
                 disk.Highlight = highlight;
             }
+        }
+
+        public void Select()
+        {
+            SelectedDisk = disks.Pop();
+            SelectedDisk.transform.localPosition += new Vector3(0f, selectedHeight, 0f);
+        }
+        
+        public void Deselect()
+        {
+            if (!SelectedDisk) return;
+            
+            SelectedDisk.transform.localPosition -= new Vector3(0f, selectedHeight, 0f);
+            disks.Push(SelectedDisk);
+            SelectedDisk = null;
+        }
+
+        public void Clear()
+        {
+            SelectedDisk = null;
         }
     }
 }
