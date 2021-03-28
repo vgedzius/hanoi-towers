@@ -30,7 +30,7 @@ namespace HanoiTowers
         {
             if (highlightedDisk != null)
             {
-                highlightedDisk.Highlight = false;
+                highlightedDisk.Peg.HighlightAllDisks(false);
                 highlightedDisk = null;
             }
 
@@ -42,7 +42,7 @@ namespace HanoiTowers
                 if (diskHit)
                 {
                     highlightedDisk = diskHit;
-                    highlightedDisk.Highlight = true;
+                    highlightedDisk.Peg.HighlightAllDisks();
                 }
             }
         }

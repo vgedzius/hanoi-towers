@@ -22,6 +22,7 @@ namespace HanoiTowers
         bool highlight;
 
         public int MaxDisks { get; set; }
+        public Peg Peg { get; set; }
         public int Size { get; set; }
         public float Height => height;
 
