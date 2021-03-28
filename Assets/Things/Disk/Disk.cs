@@ -6,30 +6,50 @@ namespace HanoiTowers
     [RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
     public class Disk : MonoBehaviour
     {
-        [Header("Rendering")] [SerializeField] float minRadius = 0.5f;
+        [SerializeField] float minRadius = 0.5f;
         [SerializeField] float maxRadius = 1.2f;
         [SerializeField] float innerRadius = 0.3f;
         [SerializeField] int numberOfSegments = 32;
         [SerializeField] float height = 0.3f;
+        [SerializeField] Material defaultMaterial;
+        [SerializeField] Material highlightMaterial;
 
         MeshFilter meshFilter;
+        MeshRenderer meshRenderer;
+        MeshCollider meshCollider;
         List<Vector3> vertices;
         List<int> triangles;
+        bool highlight;
 
         public int MaxDisks { get; set; }
         public int Size { get; set; }
         public float Height => height;
 
+        public bool Highlight
+        {
+            get => highlight;
+            set
+            {
+                highlight = value;
+                meshRenderer.material = value ? highlightMaterial : defaultMaterial;
+            }
+        }
+
         void Awake()
         {
             meshFilter = GetComponent<MeshFilter>();
+            meshRenderer = GetComponent<MeshRenderer>();
+            meshCollider = GetComponent<MeshCollider>();
             vertices = new List<Vector3>();
             triangles = new List<int>();
         }
 
         void Start()
         {
-            meshFilter.mesh = BuildMesh();
+            Mesh mesh = BuildMesh();
+            meshFilter.mesh = mesh;
+            meshCollider.sharedMesh = mesh;
+            meshRenderer.material = defaultMaterial;
         }
 
         Mesh BuildMesh()

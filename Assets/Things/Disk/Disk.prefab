@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7105137153217155192}
   - component: {fileID: 7105137153217155199}
   - component: {fileID: 7105137153217155198}
-  m_Layer: 0
+  - component: {fileID: 2410962590508566559}
+  m_Layer: 6
   m_Name: Disk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,6 +45,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -94,10 +96,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f26e41866bc2c448481e4ded255c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 1
-  maxDisks: 10
   minRadius: 0.2
   maxRadius: 1.2
   innerRadius: 0.15
   numberOfSegments: 128
   height: 0.2
+  defaultMaterial: {fileID: 2100000, guid: 5df5a1dcbc87f4d499289e7090c4926d, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 780c1be9100e66743a87809f1c62137f, type: 2}
+--- !u!64 &2410962590508566559
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7105137153217155197}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
