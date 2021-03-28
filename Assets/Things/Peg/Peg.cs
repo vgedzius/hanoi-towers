@@ -54,5 +54,21 @@ namespace HanoiTowers
         {
             SelectedDisk = null;
         }
+
+        public bool TryAddingDisk(Disk disk)
+        {
+            if (disks.Count == 0)
+            {
+                AddDisk(disk);
+                return true;
+            }
+            
+            Disk topDisk = disks.Peek();
+            if (topDisk && topDisk.Size < disk.Size) return false;
+            
+            AddDisk(disk);
+            return true;
+
+        }
     }
 }

@@ -41,7 +41,9 @@ namespace HanoiTowers
             {
                 if (highlightedPeg)
                 {
-                    highlightedPeg.AddDisk(selectedPeg.SelectedDisk);
+                    bool added = highlightedPeg.TryAddingDisk(selectedPeg.SelectedDisk);
+                    if (!added) return;
+                    
                     selectedPeg.Clear();
                 }
 
