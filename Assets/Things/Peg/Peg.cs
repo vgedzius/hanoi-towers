@@ -10,6 +10,7 @@ namespace HanoiTowers
         Stack<Disk> disks;
 
         public Disk SelectedDisk { get; private set; }
+        public int DiskCount => disks.Count;
 
         float StackHeight => disks.Count > 0 ? disks.Count * disks.Peek().Height : 0f;
 

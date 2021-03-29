@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,12 +6,14 @@ namespace HanoiTowers
 {
     public class Game : MonoBehaviour
     {
-        [SerializeField] int disks = 10;
+        [SerializeField] int numberOfPegs = 3;
+        [SerializeField] int numberOfDisks = 10;
         [SerializeField] float spawnInterval = 0.5f;
         [SerializeField] float spawnInitialDelay = 1f;
         [SerializeField] Disk diskPrefab;
         [SerializeField] Peg startingPeg;
         [SerializeField] Peg endPeg;
+        [SerializeField] GameUI ui;
 
         Peg highlightedPeg;
         Peg selectedPeg;
@@ -27,12 +30,37 @@ namespace HanoiTowers
         void Start()
         {
             StartCoroutine(SpawnDisks());
+            ui.HideLosePanel();
+            ui.HideVictoryPanel();
         }
 
         void Update()
         {
             HighlightPeg();
             HandleSelection();
+            CheckForVictory();
+        }
+
+        void CheckForVictory()
+        {
+            if (endPeg.DiskCount == numberOfDisks)
+            {
+                ui.ShowVictoryPanel();
+                selectionEnabled = false;
+            }
+
+            if (endPeg.DiskCount < numberOfDisks && Moves == OptimalNumberOfMoves(numberOfPegs, numberOfDisks))
+            {
+                ui.ShowLosePanel();
+                selectionEnabled = false;
+            }
+        }
+
+        int OptimalNumberOfMoves(int p, int r)
+        {
+            if (p != 3) Debug.LogError("Number of pegs other than 3 currently not supported");
+
+            return (int)Math.Pow(2, r) - 1;
         }
 
         void HandleSelection()
@@ -44,9 +72,9 @@ namespace HanoiTowers
                 if (highlightedPeg)
                 {
                     bool added = highlightedPeg.TryAddingDisk(selectedPeg.SelectedDisk);
-                    Moves++;
                     if (!added) return;
 
+                    Moves++;
                     selectedPeg.Clear();
                 }
 
@@ -97,10 +125,10 @@ namespace HanoiTowers
         {
             yield return new WaitForSeconds(spawnInitialDelay);
 
-            for (int i = disks; i > 0; i--)
+            for (int i = numberOfDisks; i > 0; i--)
             {
                 Disk disk = Instantiate(diskPrefab);
-                disk.MaxDisks = disks;
+                disk.MaxDisks = numberOfDisks;
                 disk.Size = i;
 
                 startingPeg.AddDisk(disk);
