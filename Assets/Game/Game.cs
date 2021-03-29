@@ -14,8 +14,9 @@ namespace HanoiTowers
 
         Peg highlightedPeg;
         Peg selectedPeg;
-
         Camera mainCamera;
+
+        public int Moves { get; private set; } = 0;
 
         void Awake()
         {
@@ -42,6 +43,7 @@ namespace HanoiTowers
                 if (highlightedPeg)
                 {
                     bool added = highlightedPeg.TryAddingDisk(selectedPeg.SelectedDisk);
+                    Moves++;
                     if (!added) return;
                     
                     selectedPeg.Clear();
