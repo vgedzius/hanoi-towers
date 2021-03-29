@@ -102,7 +102,7 @@ namespace HanoiTowers
         {
             if (highlightedPeg is { })
             {
-                highlightedPeg.HighlightAllDisks(false);
+                highlightedPeg.Highlight(false);
                 highlightedPeg = null;
             }
 
@@ -112,7 +112,7 @@ namespace HanoiTowers
             if (peg)
             {
                 highlightedPeg = peg;
-                highlightedPeg.HighlightAllDisks();
+                highlightedPeg.Highlight();
             }
         }
 

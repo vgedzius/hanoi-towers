@@ -2837,6 +2837,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedHeight: 0.3
+  defaultMaterial: {fileID: 2100000, guid: aebf995cdd2f8b246beab92438193d6f, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 8e8feeef2e458c24f8712b6a5dbcf188, type: 2}
+  meshRenderer: {fileID: 5338447901467694834}
 --- !u!136 &7774631771719614649
 CapsuleCollider:
   m_ObjectHideFlags: 0

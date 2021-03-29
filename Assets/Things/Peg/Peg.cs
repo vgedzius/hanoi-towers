@@ -6,7 +6,10 @@ namespace HanoiTowers
     public class Peg : MonoBehaviour
     {
         [SerializeField] float selectedHeight = 0.5f;
-
+        [SerializeField] Material defaultMaterial;
+        [SerializeField] Material highlightMaterial;
+        [SerializeField] MeshRenderer meshRenderer;
+        
         Stack<Disk> disks;
 
         public Disk SelectedDisk { get; private set; }
@@ -19,6 +22,11 @@ namespace HanoiTowers
             disks = new Stack<Disk>();
         }
 
+        void Start()
+        {
+            meshRenderer.material = defaultMaterial;
+        }
+
         public void AddDisk(Disk disk)
         {
             Transform diskTransform = disk.transform;
@@ -28,8 +36,10 @@ namespace HanoiTowers
             disks.Push(disk);
         }
 
-        public void HighlightAllDisks(bool highlight = true)
+        public void Highlight(bool highlight = true)
         {
+            meshRenderer.material = highlight ? highlightMaterial : defaultMaterial;
+
             foreach (Disk disk in disks)
             {
                 disk.Highlight = highlight;
@@ -46,11 +56,11 @@ namespace HanoiTowers
             SelectedDisk = disks.Pop();
             SelectedDisk.transform.localPosition += new Vector3(0f, selectedHeight, 0f);
         }
-        
+
         public void Deselect()
         {
             if (!SelectedDisk) return;
-            
+
             SelectedDisk.transform.localPosition -= new Vector3(0f, selectedHeight, 0f);
             disks.Push(SelectedDisk);
             SelectedDisk = null;
@@ -68,13 +78,12 @@ namespace HanoiTowers
                 AddDisk(disk);
                 return true;
             }
-            
+
             Disk topDisk = disks.Peek();
             if (topDisk && topDisk.Size < disk.Size) return false;
-            
+
             AddDisk(disk);
             return true;
-
         }
     }
 }
