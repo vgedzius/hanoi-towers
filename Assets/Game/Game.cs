@@ -9,12 +9,13 @@ namespace HanoiTowers
         [SerializeField] float spawnInterval = 0.5f;
         [SerializeField] float spawnInitialDelay = 1f;
         [SerializeField] Disk diskPrefab;
-        [SerializeField] Peg[] pegs;
         [SerializeField] Peg startingPeg;
+        [SerializeField] Peg endPeg;
 
         Peg highlightedPeg;
         Peg selectedPeg;
         Camera mainCamera;
+        bool selectionEnabled = false;
 
         public int Moves { get; private set; } = 0;
 
@@ -36,7 +37,7 @@ namespace HanoiTowers
 
         void HandleSelection()
         {
-            if (!Input.GetMouseButtonUp(0)) return;
+            if (!selectionEnabled || !Input.GetMouseButtonUp(0)) return;
 
             if (selectedPeg && selectedPeg != highlightedPeg)
             {
@@ -45,7 +46,7 @@ namespace HanoiTowers
                     bool added = highlightedPeg.TryAddingDisk(selectedPeg.SelectedDisk);
                     Moves++;
                     if (!added) return;
-                    
+
                     selectedPeg.Clear();
                 }
 
@@ -70,7 +71,7 @@ namespace HanoiTowers
                 highlightedPeg = null;
             }
 
-            if (!Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
+            if (!selectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
 
             Disk diskHit = hit.transform.GetComponent<Disk>();
             if (diskHit)
@@ -106,6 +107,9 @@ namespace HanoiTowers
 
                 yield return new WaitForSeconds(spawnInterval);
             }
+
+            selectionEnabled = true;
+            yield return null;
         }
     }
 }
