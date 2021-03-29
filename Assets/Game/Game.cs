@@ -91,7 +91,7 @@ namespace HanoiTowers
                 return;
             }
 
-            if (highlightedPeg == selectedPeg)
+            if (highlightedPeg && highlightedPeg == selectedPeg)
             {
                 selectedPeg.Deselect();
                 selectedPeg = null;
@@ -107,13 +107,6 @@ namespace HanoiTowers
             }
 
             if (!selectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
-
-            Disk diskHit = hit.transform.GetComponent<Disk>();
-            if (diskHit)
-            {
-                highlightedPeg = diskHit.Peg;
-                highlightedPeg.HighlightAllDisks();
-            }
 
             Peg peg = hit.transform.GetComponent<Peg>();
             if (peg)

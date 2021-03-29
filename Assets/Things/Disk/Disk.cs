@@ -16,7 +16,6 @@ namespace HanoiTowers
 
         MeshFilter meshFilter;
         MeshRenderer meshRenderer;
-        MeshCollider meshCollider;
         List<Vector3> vertices;
         List<int> triangles;
         bool highlight;
@@ -40,7 +39,6 @@ namespace HanoiTowers
         {
             meshFilter = GetComponent<MeshFilter>();
             meshRenderer = GetComponent<MeshRenderer>();
-            meshCollider = GetComponent<MeshCollider>();
             vertices = new List<Vector3>();
             triangles = new List<int>();
         }
@@ -49,7 +47,6 @@ namespace HanoiTowers
         {
             Mesh mesh = BuildMesh();
             meshFilter.mesh = mesh;
-            meshCollider.sharedMesh = mesh;
             meshRenderer.material = defaultMaterial;
         }
 
