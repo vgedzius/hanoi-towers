@@ -34,6 +34,11 @@ namespace HanoiTowers
             {
                 disk.Highlight = highlight;
             }
+
+            if (SelectedDisk)
+            {
+                SelectedDisk.Highlight = highlight;
+            }
         }
 
         public void Select()
