@@ -88,6 +88,13 @@ namespace HanoiTowers
             {
                 selectedPeg = highlightedPeg;
                 selectedPeg.Select();
+                return;
+            }
+
+            if (highlightedPeg == selectedPeg)
+            {
+                selectedPeg.Deselect();
+                selectedPeg = null;
             }
         }
 
