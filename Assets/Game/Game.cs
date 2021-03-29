@@ -21,6 +21,7 @@ namespace HanoiTowers
         Camera mainCamera;
         bool selectionEnabled = false;
         Disk placeholder;
+        int optimalMoves;
 
         public int Moves { get; private set; } = 0;
 
@@ -32,12 +33,13 @@ namespace HanoiTowers
         void Start()
         {
             StartCoroutine(SpawnDisks());
-            ui.HideLosePanel();
             ui.HideVictoryPanel();
 
             placeholder = Instantiate(placeholderPrefab);
             placeholder.Visible = false;
             placeholder.MaxDisks = numberOfDisks;
+
+            optimalMoves = OptimalNumberOfMoves(numberOfPegs, numberOfDisks);
         }
 
         void Update()
@@ -49,17 +51,10 @@ namespace HanoiTowers
 
         void CheckForVictory()
         {
-            if (endPeg.DiskCount == numberOfDisks)
-            {
-                ui.ShowVictoryPanel();
-                selectionEnabled = false;
-            }
-
-            if (endPeg.DiskCount < numberOfDisks && Moves == OptimalNumberOfMoves(numberOfPegs, numberOfDisks))
-            {
-                ui.ShowLosePanel();
-                selectionEnabled = false;
-            }
+            if (endPeg.DiskCount != numberOfDisks) return;
+            
+            ui.ShowVictoryPanel(Moves == optimalMoves, Moves);
+            selectionEnabled = false;
         }
 
         int OptimalNumberOfMoves(int p, int r)
