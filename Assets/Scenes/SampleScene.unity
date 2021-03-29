@@ -2698,6 +2698,7 @@ MonoBehaviour:
   spawnInterval: 0.25
   spawnInitialDelay: 0.5
   diskPrefab: {fileID: 7105137153217155198, guid: 71d927c6aa2d2eb4db8d794f541a6ff6, type: 3}
+  placeholderPrefab: {fileID: 7105137153217155198, guid: 87ce110acdba05e49bbd8a93c4b2c22f, type: 3}
   startingPeg: {fileID: 1814799741}
   endPeg: {fileID: 1697881252}
   ui: {fileID: 1674683984}

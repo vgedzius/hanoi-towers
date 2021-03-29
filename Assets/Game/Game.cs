@@ -11,6 +11,7 @@ namespace HanoiTowers
         [SerializeField] float spawnInterval = 0.5f;
         [SerializeField] float spawnInitialDelay = 1f;
         [SerializeField] Disk diskPrefab;
+        [SerializeField] Disk placeholderPrefab;
         [SerializeField] Peg startingPeg;
         [SerializeField] Peg endPeg;
         [SerializeField] GameUI ui;
@@ -19,6 +20,7 @@ namespace HanoiTowers
         Peg selectedPeg;
         Camera mainCamera;
         bool selectionEnabled = false;
+        Disk placeholder;
 
         public int Moves { get; private set; } = 0;
 
@@ -32,6 +34,10 @@ namespace HanoiTowers
             StartCoroutine(SpawnDisks());
             ui.HideLosePanel();
             ui.HideVictoryPanel();
+
+            placeholder = Instantiate(placeholderPrefab);
+            placeholder.Visible = false;
+            placeholder.MaxDisks = numberOfDisks;
         }
 
         void Update()
@@ -100,19 +106,31 @@ namespace HanoiTowers
 
         void HighlightPeg()
         {
-            if (highlightedPeg is { })
+            if (highlightedPeg)
             {
                 highlightedPeg.Highlight(false);
                 highlightedPeg = null;
+                placeholder.Visible = false;
             }
 
             if (!selectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
 
             Peg peg = hit.transform.GetComponent<Peg>();
-            if (peg)
+            if (!peg) return;
+            
+            highlightedPeg = peg;
+            highlightedPeg.Highlight();
+
+            if (selectedPeg && highlightedPeg != selectedPeg)
             {
-                highlightedPeg = peg;
-                highlightedPeg.Highlight();
+                int selectedDiskSize = selectedPeg.SelectedDisk.Size;
+
+                if (!highlightedPeg.CanPlace(selectedDiskSize)) return;
+                
+                placeholder.Size = selectedDiskSize;
+                placeholder.Visible = true;
+                
+                highlightedPeg.Placeholder(placeholder.transform);
             }
         }
 
@@ -130,6 +148,7 @@ namespace HanoiTowers
                 Disk disk = Instantiate(diskPrefab);
                 disk.MaxDisks = numberOfDisks;
                 disk.Size = i;
+                disk.Visible = true;
 
                 startingPeg.AddDisk(disk);
 

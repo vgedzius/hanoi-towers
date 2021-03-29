@@ -32,7 +32,6 @@ namespace HanoiTowers
             Transform diskTransform = disk.transform;
             diskTransform.parent = transform;
             diskTransform.localPosition = new Vector3(0f, StackHeight, 0f);
-            disk.Peg = this;
             disks.Push(disk);
         }
 
@@ -73,17 +72,23 @@ namespace HanoiTowers
 
         public bool TryAddingDisk(Disk disk)
         {
-            if (disks.Count == 0)
-            {
-                AddDisk(disk);
-                return true;
-            }
-
-            Disk topDisk = disks.Peek();
-            if (topDisk && topDisk.Size < disk.Size) return false;
+            if (!CanPlace(disk.Size)) return false;
 
             AddDisk(disk);
             return true;
+        }
+
+        public void Placeholder(Transform placeholder)
+        {
+            placeholder.parent = transform;
+            placeholder.localPosition = new Vector3(0f, StackHeight, 0f);
+        }
+
+        public bool CanPlace(int size)
+        {
+            if (disks.Count == 0) return true;
+            
+            return size < disks.Peek().Size;
         }
     }
 }

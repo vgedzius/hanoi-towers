@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HighlightedDisk
+  m_Name: Placeholder
   m_Shader: {fileID: -6465566751694194690, guid: b2ecfb62fa8c7a343b3678d7e8d52898, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: PLACEHOLDER
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -77,7 +77,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - PLACEHOLDER: 0
+    - PLACEHOLDER: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1

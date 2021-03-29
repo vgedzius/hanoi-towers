@@ -19,11 +19,36 @@ namespace HanoiTowers
         List<Vector3> vertices;
         List<int> triangles;
         bool highlight;
+        bool visible;
+        int size;
 
         public int MaxDisks { get; set; }
-        public Peg Peg { get; set; }
-        public int Size { get; set; }
         public float Height => height;
+        
+        public int Size
+        {
+            get => size;
+            set
+            {
+                int oldSize = size;
+                size = value;
+
+                if (oldSize != size)
+                {
+                    BuildMesh();
+                }
+            }
+        }
+        
+        public bool Visible
+        {
+            get => visible;
+            set
+            {
+                visible = value;
+                meshRenderer.enabled = value;
+            }
+        }
 
         public bool Highlight
         {
@@ -45,14 +70,16 @@ namespace HanoiTowers
 
         void Start()
         {
-            Mesh mesh = BuildMesh();
-            meshFilter.mesh = mesh;
+            BuildMesh();
             meshRenderer.material = defaultMaterial;
         }
 
-        Mesh BuildMesh()
+        void BuildMesh()
         {
             Mesh mesh = new Mesh();
+            
+            vertices.Clear();
+            triangles.Clear();
 
             Triangulate();
 
@@ -60,7 +87,7 @@ namespace HanoiTowers
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
 
-            return mesh;
+            meshFilter.mesh = mesh;
         }
 
         void Triangulate()
