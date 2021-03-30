@@ -40,6 +40,7 @@ namespace HanoiTowers
             placeholder.MaxDisks = numberOfDisks;
 
             optimalMoves = OptimalNumberOfMoves(numberOfPegs, numberOfDisks);
+            endPeg.ShowArrow();
         }
 
         void Update()

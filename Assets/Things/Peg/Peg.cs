@@ -9,6 +9,7 @@ namespace HanoiTowers
         [SerializeField] Material defaultMaterial;
         [SerializeField] Material highlightMaterial;
         [SerializeField] MeshRenderer meshRenderer;
+        [SerializeField] Transform arrow;
         
         Stack<Disk> disks;
 
@@ -25,6 +26,16 @@ namespace HanoiTowers
         void Start()
         {
             meshRenderer.material = defaultMaterial;
+        }
+
+        public void ShowArrow()
+        {
+            arrow.gameObject.SetActive(true);
+        }
+        
+        public void HideArrow()
+        {
+            arrow.gameObject.SetActive(false);
         }
 
         public void AddDisk(Disk disk)
