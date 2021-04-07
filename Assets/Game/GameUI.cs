@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace HanoiTowers
 {
@@ -8,12 +9,20 @@ namespace HanoiTowers
         [SerializeField] TextMeshProUGUI movesText;
         [SerializeField] Game game;
         [SerializeField] GameObject victoryPanel;
+        [SerializeField] GameObject menu;
         [SerializeField] TextMeshProUGUI vicotrySubtext;
 
         void Update()
         {
             movesText.text = game.Moves.ToString();
+            
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                ToggleMenu();
+            }
         }
+
+        
 
         public void ShowVictoryPanel(bool champion, int moves)
         {
@@ -27,6 +36,33 @@ namespace HanoiTowers
         public void HideVictoryPanel()
         {
             victoryPanel.SetActive(false);
+        }
+
+        void ShowMenu()
+        {
+            menu.SetActive(true);
+        }
+
+        public void HideMenu()
+        {
+            menu.SetActive(false);
+        }
+        
+        void ToggleMenu()
+        {
+            if (menu.activeSelf)
+            {
+                HideMenu();
+            }
+            else
+            {
+                ShowMenu();
+            }
+        }
+
+        public void ExitToMainMenu()
+        {
+            SceneManager.LoadScene(0);
         }
     }
 }

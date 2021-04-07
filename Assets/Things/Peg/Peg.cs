@@ -63,6 +63,8 @@ namespace HanoiTowers
 
         public void Select()
         {
+            if (disks.Count <= 0) return;
+            
             SelectedDisk = disks.Pop();
             SelectedDisk.transform.localPosition += new Vector3(0f, selectedHeight, 0f);
         }

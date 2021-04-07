@@ -49,6 +49,11 @@ namespace HanoiTowers
             HandleSelection();
             CheckForVictory();
         }
+        
+        public void Quit()
+        {
+            Application.Quit();
+        }
 
         void CheckForVictory()
         {
