@@ -19,11 +19,11 @@ namespace HanoiTowers
         Peg highlightedPeg;
         Peg selectedPeg;
         Camera mainCamera;
-        bool selectionEnabled = false;
         Disk placeholder;
         int optimalMoves;
 
         public int Moves { get; private set; } = 0;
+        public bool SelectionEnabled { get; set; } = false;
 
         void Awake()
         {
@@ -60,7 +60,7 @@ namespace HanoiTowers
             if (endPeg.DiskCount != numberOfDisks) return;
             
             ui.ShowVictoryPanel(Moves == optimalMoves, Moves);
-            selectionEnabled = false;
+            SelectionEnabled = false;
         }
 
         int OptimalNumberOfMoves(int p, int r)
@@ -72,7 +72,7 @@ namespace HanoiTowers
 
         void HandleSelection()
         {
-            if (!selectionEnabled || !Input.GetMouseButtonUp(0)) return;
+            if (!SelectionEnabled || !Input.GetMouseButtonUp(0)) return;
 
             if (selectedPeg && selectedPeg != highlightedPeg)
             {
@@ -114,7 +114,7 @@ namespace HanoiTowers
                 placeholder.Visible = false;
             }
 
-            if (!selectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
+            if (!SelectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
 
             Peg peg = hit.transform.GetComponent<Peg>();
             if (!peg) return;
@@ -156,7 +156,7 @@ namespace HanoiTowers
                 yield return new WaitForSeconds(spawnInterval);
             }
 
-            selectionEnabled = true;
+            SelectionEnabled = true;
             yield return null;
         }
     }

@@ -41,11 +41,13 @@ namespace HanoiTowers
         void ShowMenu()
         {
             menu.SetActive(true);
+            game.SelectionEnabled = false;
         }
 
         public void HideMenu()
         {
             menu.SetActive(false);
+            game.SelectionEnabled = true;
         }
         
         void ToggleMenu()
