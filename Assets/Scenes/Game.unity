@@ -15181,7 +15181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numberOfPegs: 3
-  numberOfDisks: 6
+  numberOfDisks: 10
   spawnInterval: 0.25
   spawnInitialDelay: 0.5
   diskPrefab: {fileID: 7105137153217155198, guid: 71d927c6aa2d2eb4db8d794f541a6ff6, type: 3}

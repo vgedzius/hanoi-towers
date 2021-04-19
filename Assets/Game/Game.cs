@@ -1,13 +1,14 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace HanoiTowers
 {
     public class Game : MonoBehaviour
     {
-        [SerializeField] int numberOfPegs = 3;
-        [SerializeField] int numberOfDisks = 10;
+        [SerializeField, Range(3, 10)] int numberOfPegs = 3;
+        [SerializeField, Range(1, 30)] int numberOfDisks = 10;
         [SerializeField] float spawnInterval = 0.5f;
         [SerializeField] float spawnInitialDelay = 1f;
         [SerializeField] Disk diskPrefab;
@@ -39,7 +40,7 @@ namespace HanoiTowers
             placeholder.Visible = false;
             placeholder.MaxDisks = numberOfDisks;
 
-            optimalMoves = OptimalNumberOfMoves(numberOfPegs, numberOfDisks);
+            optimalMoves = FrameStewart(numberOfDisks, numberOfPegs);
             endPeg.ShowArrow();
         }
 
@@ -49,7 +50,7 @@ namespace HanoiTowers
             HandleSelection();
             CheckForVictory();
         }
-        
+
         public void Quit()
         {
             Application.Quit();
@@ -58,16 +59,48 @@ namespace HanoiTowers
         void CheckForVictory()
         {
             if (endPeg.DiskCount != numberOfDisks) return;
-            
+
             ui.ShowVictoryPanel(Moves == optimalMoves, Moves);
             SelectionEnabled = false;
         }
 
-        int OptimalNumberOfMoves(int p, int r)
+        static int FrameStewart(int n, int r)
         {
-            if (p != 3) Debug.LogError("Number of pegs other than 3 currently not supported");
+            if (n == 0) return 0;
 
-            return (int)Math.Pow(2, r) - 1;
+            if (n == 1 && r > 1) return 1;
+
+            if (r == 3) return (int) Math.Pow(2, n) - 1;
+
+            if (r > 3 && n > 0)
+            {
+                List<int> possibleSolutions = new List<int>();
+                for (int k = 1; k < n; k++)
+                {
+                    possibleSolutions.Add(
+                        2 * FrameStewart(k, r) + FrameStewart(n - k, r - 1)
+                    );
+                }
+
+                return Min(possibleSolutions);
+            }
+
+            return int.MaxValue;
+        }
+
+        static int Min(List<int> possibleSolutions)
+        {
+            int min = possibleSolutions[0];
+
+            foreach (int value in possibleSolutions)
+            {
+                if (value < min)
+                {
+                    min = value;
+                }
+            }
+
+            return min;
         }
 
         void HandleSelection()
@@ -118,7 +151,7 @@ namespace HanoiTowers
 
             Peg peg = hit.transform.GetComponent<Peg>();
             if (!peg) return;
-            
+
             highlightedPeg = peg;
             highlightedPeg.Highlight();
 
@@ -127,10 +160,10 @@ namespace HanoiTowers
                 int selectedDiskSize = selectedPeg.SelectedDisk.Size;
 
                 if (!highlightedPeg.CanPlace(selectedDiskSize)) return;
-                
+
                 placeholder.Size = selectedDiskSize;
                 placeholder.Visible = true;
-                
+
                 highlightedPeg.Placeholder(placeholder.transform);
             }
         }
