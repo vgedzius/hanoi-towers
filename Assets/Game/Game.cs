@@ -25,10 +25,13 @@ namespace HanoiTowers
 
         public int Moves { get; private set; } = 0;
         public bool SelectionEnabled { get; set; } = false;
+        public int NumberOfDisks => numberOfDisks;
+        public static Game Instance { get; private set; }
 
         void Awake()
         {
             mainCamera = Camera.main;
+            Instance = this;
         }
 
         void Start()
@@ -38,7 +41,6 @@ namespace HanoiTowers
 
             placeholder = Instantiate(placeholderPrefab);
             placeholder.Visible = false;
-            placeholder.MaxDisks = numberOfDisks;
 
             optimalMoves = FrameStewart(numberOfDisks, numberOfPegs);
             endPeg.ShowArrow();
@@ -159,7 +161,7 @@ namespace HanoiTowers
             {
                 int selectedDiskSize = selectedPeg.SelectedDisk.Size;
 
-                if (!highlightedPeg.CanPlace(selectedDiskSize)) return;
+                if (!highlightedPeg.CanPlace(selectedPeg.SelectedDisk)) return;
 
                 placeholder.Size = selectedDiskSize;
                 placeholder.Visible = true;
@@ -180,7 +182,6 @@ namespace HanoiTowers
             for (int i = numberOfDisks; i > 0; i--)
             {
                 Disk disk = Instantiate(diskPrefab);
-                disk.MaxDisks = numberOfDisks;
                 disk.Size = i;
                 disk.Visible = true;
 

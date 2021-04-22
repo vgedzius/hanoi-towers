@@ -12,9 +12,8 @@ namespace HanoiTowers
         DiskMesh diskMesh;
         bool highlight;
         bool visible;
-        int size;
+        int size = 1;
 
-        public int MaxDisks { get; set; }
         public float Height => diskMesh.Height;
 
         public int Size
@@ -27,7 +26,7 @@ namespace HanoiTowers
 
                 if (oldSize != size)
                 {
-                    diskMesh.Build(size, MaxDisks);
+                    diskMesh.Build(size);
                 }
             }
         }
@@ -60,7 +59,7 @@ namespace HanoiTowers
 
         void Start()
         {
-            diskMesh.Build(size, MaxDisks);
+            diskMesh.Build(size);
             meshRenderer.material = defaultMaterial;
         }
     }

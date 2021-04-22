@@ -85,7 +85,7 @@ namespace HanoiTowers
 
         public bool TryAddingDisk(Disk disk)
         {
-            if (!CanPlace(disk.Size)) return false;
+            if (!CanPlace(disk)) return false;
 
             AddDisk(disk);
             return true;
@@ -97,11 +97,11 @@ namespace HanoiTowers
             placeholder.localPosition = new Vector3(0f, StackHeight, 0f);
         }
 
-        public bool CanPlace(int size)
+        public bool CanPlace(Disk disk)
         {
             if (disks.Count == 0) return true;
             
-            return size < disks.Peek().Size;
+            return disk.Size < disks.Peek().Size;
         }
     }
 }

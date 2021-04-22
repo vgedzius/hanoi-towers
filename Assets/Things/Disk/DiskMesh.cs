@@ -11,37 +11,37 @@ namespace HanoiTowers
         [SerializeField] float innerRadius = 0.15f;
         [SerializeField] int numberOfSegments = 128;
         [SerializeField] float height = 0.2f;
-        
-        MeshFilter meshFilter;
 
         readonly List<Vector3> vertices = new List<Vector3>();
         readonly List<int> triangles = new List<int>();
+        Mesh mesh;
 
         public float Height => height;
 
-        void Awake()
+        bool NeedsUpdate()
         {
-            meshFilter = GetComponent<MeshFilter>();
+            return !mesh;
         }
 
-        public void Build(int size, int maxDisks)
+        public void Build(int size)
         {
-            Mesh mesh = new Mesh();
+            mesh = new Mesh();
 
             vertices.Clear();
             triangles.Clear();
 
-            Triangulate(size, maxDisks);
+            Triangulate(size);
 
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
 
-            meshFilter.mesh = mesh;
+            GetComponent<MeshFilter>().sharedMesh = mesh;
         }
 
-        void Triangulate(int size, int maxDisks)
+        void Triangulate(int size)
         {
+            int maxDisks = Game.Instance.NumberOfDisks;
             float alpha = Mathf.PI / numberOfSegments * 2;
             float totalAlpha = 0;
             float stepSize = maxDisks > 1 ? (maxRadius - minRadius) / (maxDisks - 1) : 0f;
