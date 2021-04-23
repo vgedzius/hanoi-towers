@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HanoiTowers
 {
-    [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(MeshFilter)), ExecuteInEditMode]
     public class DiskMesh : MonoBehaviour
     {
         [SerializeField] float minRadius = 0.2f;
@@ -15,22 +15,56 @@ namespace HanoiTowers
         readonly List<Vector3> vertices = new List<Vector3>();
         readonly List<int> triangles = new List<int>();
         Mesh mesh;
+        bool needUpdate = false;
+        int size;
+        int maxDisks;
 
         public float Height => height;
 
-        bool NeedsUpdate()
-        {
-            return !mesh;
-        }
-
-        public void Build(int size)
+        void Awake()
         {
             mesh = new Mesh();
+            mesh.name = "Disk";
+        }
 
+        void Start()
+        {
+#if UNITY_EDITOR
+            UpdateEditor();
+#endif
+        }
+
+        void Update()
+        {
+            if (!needUpdate) return;
+
+            Build();
+
+            needUpdate = false;
+        }
+
+        public void ScheduleBuild(int buildSize, int buildMaxDisks)
+        {
+            size = buildSize;
+            maxDisks = buildMaxDisks;
+            needUpdate = true;
+        }
+
+#if UNITY_EDITOR
+        void UpdateEditor()
+        {
+            if (Application.isPlaying) return;
+
+            ScheduleBuild(5, 10);
+        }
+#endif
+
+        void Build()
+        {
             vertices.Clear();
             triangles.Clear();
 
-            Triangulate(size);
+            Triangulate();
 
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
@@ -39,9 +73,8 @@ namespace HanoiTowers
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
 
-        void Triangulate(int size)
+        void Triangulate()
         {
-            int maxDisks = Game.Instance.NumberOfDisks;
             float alpha = Mathf.PI / numberOfSegments * 2;
             float totalAlpha = 0;
             float stepSize = maxDisks > 1 ? (maxRadius - minRadius) / (maxDisks - 1) : 0f;

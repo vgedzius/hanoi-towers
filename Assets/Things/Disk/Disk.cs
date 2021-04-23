@@ -26,7 +26,7 @@ namespace HanoiTowers
 
                 if (oldSize != size)
                 {
-                    diskMesh.Build(size);
+                    diskMesh.ScheduleBuild(size, Game.Instance.NumberOfDisks);
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace HanoiTowers
 
         void Start()
         {
-            diskMesh.Build(size);
+            diskMesh.ScheduleBuild(size, Game.Instance.NumberOfDisks);
             meshRenderer.material = defaultMaterial;
         }
     }
