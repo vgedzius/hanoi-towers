@@ -87,27 +87,45 @@ namespace HanoiTowers
 
             for (int i = 0; i < numberOfSegments; i++)
             {
-                Vector3 c1 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height,
-                    innerRadius * Mathf.Sin(totalAlpha));
-                Vector3 v1 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
+                float innerX = Alpha2X(innerRadius, totalAlpha);
+                float outerX = Alpha2X(radius, totalAlpha);
+                float innerZ = Alpha2Z(innerRadius, totalAlpha);
+                float outerZ = Alpha2Z(radius, totalAlpha);
+                
+                Vector3 c1 = new Vector3(innerX, height, innerZ);
+                Vector3 v1 = new Vector3(outerX, height, outerZ);
 
-                Vector3 c2 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
-                Vector3 v2 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
+                Vector3 c2 = new Vector3(innerX, 0f, innerZ);
+                Vector3 v2 = new Vector3(outerX, 0f, outerZ);
 
                 totalAlpha += alpha;
+                
+                innerX = Alpha2X(innerRadius, totalAlpha);
+                outerX = Alpha2X(radius, totalAlpha);
+                innerZ = Alpha2Z(innerRadius, totalAlpha);
+                outerZ = Alpha2Z(radius, totalAlpha);
 
-                Vector3 c3 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), height,
-                    innerRadius * Mathf.Sin(totalAlpha));
-                Vector3 v3 = new Vector3(radius * Mathf.Cos(totalAlpha), height, radius * Mathf.Sin(totalAlpha));
+                Vector3 c3 = new Vector3(innerX, height, innerZ);
+                Vector3 v3 = new Vector3(outerX, height, outerZ);
 
-                Vector3 c4 = new Vector3(innerRadius * Mathf.Cos(totalAlpha), 0f, innerRadius * Mathf.Sin(totalAlpha));
-                Vector3 v4 = new Vector3(radius * Mathf.Cos(totalAlpha), 0f, radius * Mathf.Sin(totalAlpha));
+                Vector3 c4 = new Vector3(innerX, 0f, innerZ);
+                Vector3 v4 = new Vector3(outerX, 0f, outerZ);
 
                 AddQuad(c1, c3, c4, c2);
                 AddQuad(c1, v1, v3, c3);
                 AddQuad(c2, c4, v4, v2);
                 AddQuad(v1, v2, v4, v3);
             }
+        }
+
+        static float Alpha2Z(float radius, float totalAlpha)
+        {
+            return radius * Mathf.Sin(totalAlpha);
+        }
+
+        static float Alpha2X(float radius, float totalAlpha)
+        {
+            return radius * Mathf.Cos(totalAlpha);
         }
 
         void AddTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
