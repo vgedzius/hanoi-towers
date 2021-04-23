@@ -14,12 +14,15 @@ namespace HanoiTowers
 
         readonly List<Vector3> vertices = new List<Vector3>();
         readonly List<int> triangles = new List<int>();
-        
+
         MeshFilter meshFilter;
         Mesh mesh;
         bool needUpdate = false;
         int scheduledSize;
         int scheduledMaxDisks;
+
+        public int PreviewSize { get; set; } = 5;
+        public int PreviewMaxDisks { get; set; } = 10;
 
         public float Height => height;
 
@@ -32,7 +35,7 @@ namespace HanoiTowers
         void Start()
         {
 #if UNITY_EDITOR
-            UpdateEditor();
+            StartEditor();
 #endif
         }
 
@@ -53,11 +56,11 @@ namespace HanoiTowers
         }
 
 #if UNITY_EDITOR
-        void UpdateEditor()
+        void StartEditor()
         {
             if (Application.isPlaying) return;
 
-            ScheduleBuild(5, 10);
+            Build(PreviewSize, PreviewMaxDisks);
         }
 #endif
 
@@ -71,7 +74,7 @@ namespace HanoiTowers
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
-            
+
             meshFilter.sharedMesh = mesh;
         }
 

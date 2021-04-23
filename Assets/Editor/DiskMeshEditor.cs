@@ -14,9 +14,7 @@ namespace HanoiTowers
 
         bool showGeometry = true;
         bool showPreview = true;
-        int previewSize = 5;
-        int previewMaxDisks = 10;
-        
+
         readonly GUIContent segmentsLabel = new GUIContent("Segments");
 
         void OnEnable()
@@ -34,7 +32,7 @@ namespace HanoiTowers
 
             DrawGeometrySection();
             DrawPreviewSection();
-            
+
             serializedObject.ApplyModifiedProperties();
         }
 
@@ -44,27 +42,26 @@ namespace HanoiTowers
 
             PrefabInstanceStatus status = PrefabUtility.GetPrefabInstanceStatus(diskMesh.gameObject);
             // TODO: @Investigate I thought this should work opposite way, am I using this properly?
-            if (status == PrefabInstanceStatus.NotAPrefab) return;  
-            
+            if (status == PrefabInstanceStatus.NotAPrefab) return;
+
             showPreview = EditorGUILayout.Foldout(showPreview, "Preview");
             if (!showPreview) return;
 
-            previewSize = EditorGUILayout.IntField("Size", previewSize);
-            previewMaxDisks = EditorGUILayout.IntField("Max Disks", previewMaxDisks);
+            diskMesh.PreviewSize = EditorGUILayout.IntField("Size", diskMesh.PreviewSize);
+            diskMesh.PreviewMaxDisks = EditorGUILayout.IntField("Max Disks", diskMesh.PreviewMaxDisks);
 
             if (GUILayout.Button("Preview"))
             {
-                
-                diskMesh.Build(previewSize, previewMaxDisks);
+                diskMesh.Build(diskMesh.PreviewSize, diskMesh.PreviewMaxDisks);
             }
         }
 
         void DrawGeometrySection()
         {
             showGeometry = EditorGUILayout.Foldout(showGeometry, "Geometry");
-            
+
             if (!showGeometry) return;
-            
+
             EditorGUILayout.BeginHorizontal();
 
             EditorGUILayout.PrefixLabel("Outer Radius");
