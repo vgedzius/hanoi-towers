@@ -113,5 +113,5 @@ MonoBehaviour:
   minRadius: 0.2
   maxRadius: 1.2
   innerRadius: 0.15
-  numberOfSegments: 128
   height: 0.2
+  numberOfSegments: 128

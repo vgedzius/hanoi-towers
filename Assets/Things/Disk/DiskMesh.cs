@@ -9,22 +9,21 @@ namespace HanoiTowers
         [SerializeField] float minRadius = 0.2f;
         [SerializeField] float maxRadius = 1.2f;
         [SerializeField] float innerRadius = 0.15f;
-        [SerializeField] int numberOfSegments = 128;
         [SerializeField] float height = 0.2f;
+        [SerializeField] int numberOfSegments = 128;
 
         readonly List<Vector3> vertices = new List<Vector3>();
         readonly List<int> triangles = new List<int>();
         Mesh mesh;
         bool needUpdate = false;
-        int size;
-        int maxDisks;
+        int scheduledSize;
+        int scheduledMaxDisks;
 
         public float Height => height;
 
         void Awake()
         {
-            mesh = new Mesh();
-            mesh.name = "Disk";
+            mesh = new Mesh {name = "Disk"};
         }
 
         void Start()
@@ -38,15 +37,15 @@ namespace HanoiTowers
         {
             if (!needUpdate) return;
 
-            Build();
+            Build(scheduledSize, scheduledMaxDisks);
 
             needUpdate = false;
         }
 
         public void ScheduleBuild(int buildSize, int buildMaxDisks)
         {
-            size = buildSize;
-            maxDisks = buildMaxDisks;
+            scheduledSize = buildSize;
+            scheduledMaxDisks = buildMaxDisks;
             needUpdate = true;
         }
 
@@ -59,12 +58,12 @@ namespace HanoiTowers
         }
 #endif
 
-        void Build()
+        public void Build(int size, int maxDisks)
         {
             vertices.Clear();
             triangles.Clear();
 
-            Triangulate();
+            Triangulate(size, maxDisks);
 
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
@@ -73,7 +72,7 @@ namespace HanoiTowers
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
 
-        void Triangulate()
+        void Triangulate(int size, int maxDisks)
         {
             float alpha = Mathf.PI / numberOfSegments * 2;
             float totalAlpha = 0;
