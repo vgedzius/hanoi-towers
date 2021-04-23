@@ -14,6 +14,8 @@ namespace HanoiTowers
 
         readonly List<Vector3> vertices = new List<Vector3>();
         readonly List<int> triangles = new List<int>();
+        
+        MeshFilter meshFilter;
         Mesh mesh;
         bool needUpdate = false;
         int scheduledSize;
@@ -24,6 +26,7 @@ namespace HanoiTowers
         void Awake()
         {
             mesh = new Mesh {name = "Disk"};
+            meshFilter = GetComponent<MeshFilter>();
         }
 
         void Start()
@@ -68,8 +71,8 @@ namespace HanoiTowers
             mesh.vertices = vertices.ToArray();
             mesh.triangles = triangles.ToArray();
             mesh.RecalculateNormals();
-
-            GetComponent<MeshFilter>().sharedMesh = mesh;
+            
+            meshFilter.sharedMesh = mesh;
         }
 
         void Triangulate(int size, int maxDisks)
