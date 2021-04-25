@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d307eb14b7540e246940f77fd6622605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedHeight: 0.3
+  selectedHeight: 0.1
   defaultMaterial: {fileID: 2100000, guid: aebf995cdd2f8b246beab92438193d6f, type: 2}
   highlightMaterial: {fileID: 2100000, guid: 8e8feeef2e458c24f8712b6a5dbcf188, type: 2}
   meshRenderer: {fileID: 4365642115369870321}
