@@ -10,8 +10,6 @@ namespace HanoiTowers
         
         MeshRenderer meshRenderer;
         DiskMesh diskMesh;
-        bool highlight;
-        bool visible;
         int size = 1;
 
         public float Height => diskMesh.Height;
@@ -33,22 +31,12 @@ namespace HanoiTowers
 
         public bool Visible
         {
-            get => visible;
-            set
-            {
-                visible = value;
-                meshRenderer.enabled = value;
-            }
+            set => meshRenderer.enabled = value;
         }
 
         public bool Highlight
         {
-            get => highlight;
-            set
-            {
-                highlight = value;
-                meshRenderer.material = value ? highlightMaterial : defaultMaterial;
-            }
+            set => meshRenderer.material = value ? highlightMaterial : defaultMaterial;
         }
 
         void Awake()
