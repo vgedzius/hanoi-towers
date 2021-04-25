@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913ccc32755844a98e923c7664c621c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minRadius: 0.2
-  maxRadius: 1.2
-  innerRadius: 0.15
-  height: 0.2
+  minRadius: 0.06
+  maxRadius: 0.35
+  innerRadius: 0.04
+  height: 0.05
   numberOfSegments: 128
