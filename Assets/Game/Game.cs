@@ -152,22 +152,21 @@ namespace HanoiTowers
             if (!SelectionEnabled || !Physics.Raycast(MouseToRay(), out RaycastHit hit)) return;
 
             Peg peg = hit.transform.GetComponent<Peg>();
-            if (!peg) return;
+            if (!peg || (peg.DiskCount < 1 && !selectedPeg)) return;
 
             highlightedPeg = peg;
             highlightedPeg.Highlight();
 
-            if (selectedPeg && highlightedPeg != selectedPeg)
-            {
-                int selectedDiskSize = selectedPeg.SelectedDisk.Size;
+            if (
+                !selectedPeg ||
+                highlightedPeg == selectedPeg ||
+                !highlightedPeg.CanPlace(selectedPeg.SelectedDisk)
+            ) return;
 
-                if (!highlightedPeg.CanPlace(selectedPeg.SelectedDisk)) return;
+            placeholder.Size = selectedPeg.SelectedDisk.Size;
+            placeholder.Visible = true;
 
-                placeholder.Size = selectedDiskSize;
-                placeholder.Visible = true;
-
-                highlightedPeg.Placeholder(placeholder.transform);
-            }
+            highlightedPeg.Placeholder(placeholder.transform);
         }
 
         Ray MouseToRay()
