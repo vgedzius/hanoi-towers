@@ -43,7 +43,6 @@ namespace HanoiTowers
             placeholder.Visible = false;
 
             optimalMoves = FrameStewart(numberOfDisks, numberOfPegs);
-            endPeg.ShowArrow();
         }
 
         void Update()
@@ -190,6 +189,7 @@ namespace HanoiTowers
             }
 
             SelectionEnabled = true;
+            endPeg.ShowArrow();
             yield return null;
         }
     }
