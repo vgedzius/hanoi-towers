@@ -133,6 +133,7 @@ MonoBehaviour:
   highlightMaterial: {fileID: 2100000, guid: 8e8feeef2e458c24f8712b6a5dbcf188, type: 2}
   meshRenderer: {fileID: 4365642115369870321}
   arrow: {fileID: 5254025417144852218}
+  model: {fileID: 6557443904538604005}
 --- !u!136 &7774631771719614649
 CapsuleCollider:
   m_ObjectHideFlags: 0

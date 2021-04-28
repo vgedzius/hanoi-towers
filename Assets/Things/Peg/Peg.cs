@@ -10,7 +10,8 @@ namespace HanoiTowers
         [SerializeField] Material highlightMaterial;
         [SerializeField] MeshRenderer meshRenderer;
         [SerializeField] Transform arrow;
-        
+        [SerializeField] Transform model;
+
         Stack<Disk> disks;
 
         public Disk SelectedDisk { get; private set; }
@@ -25,14 +26,24 @@ namespace HanoiTowers
 
         void Start()
         {
+            Game game = Game.Instance;
+            Transform t = model.transform;
+
             meshRenderer.material = defaultMaterial;
+            
+            Vector3 scale = t.localScale;
+            float height = game.NumberOfDisks * 0.05f;
+            
+            scale.y = height;
+            
+            t.localScale = scale;
         }
 
         public void ShowArrow()
         {
             arrow.gameObject.SetActive(true);
         }
-        
+
         public void HideArrow()
         {
             arrow.gameObject.SetActive(false);
@@ -64,7 +75,7 @@ namespace HanoiTowers
         public void Select()
         {
             if (disks.Count <= 0) return;
-            
+
             SelectedDisk = disks.Pop();
             SelectedDisk.transform.localPosition += new Vector3(0f, selectedHeight, 0f);
         }
@@ -100,7 +111,7 @@ namespace HanoiTowers
         public bool CanPlace(Disk disk)
         {
             if (disks.Count == 0) return true;
-            
+
             return disk.Size < disks.Peek().Size;
         }
     }
