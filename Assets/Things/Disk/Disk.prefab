@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minRadius: 0.06
-  maxRadius: 0.4
+  maxRadius: 0.3
   innerRadius: 0.04
   height: 0.05
   numberOfSegments: 128
